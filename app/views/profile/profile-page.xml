@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Profile">
+        <ActionItem text="Edit" tap="{{ onEditTap }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+    
+    <ScrollView>
+        <StackLayout>
+            <include src="~/components/profile/profile-header.xml" />
+            <include src="~/components/profile/skill-levels.xml" />
+            <include src="~/components/profile/stats-display.xml" />
+            
+            <Button text="Edit Profile" tap="{{ onEditTap }}" class="btn btn-primary m-4" />
+        </StackLayout>
+    </ScrollView>
+</Page>

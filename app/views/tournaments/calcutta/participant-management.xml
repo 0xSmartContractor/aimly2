@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Auction Participants">
+        <ActionItem text="Settings" tap="{{ showSettings }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <TabView selectedIndex="{{ selectedTabIndex }}">
+        <!-- Pending Requests -->
+        <TabViewItem title="Requests">
+            <ListView items="{{ pendingRequests }}" class="list-group">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto, auto" class="list-group-item p-2">
+                        <StackLayout col="0">
+                            <Label text="{{ displayName }}" class="font-bold" />
+                            <Label text="{{ requestedAt | timeAgo }}" class="text-sm text-gray-600" />
+                        </StackLayout>
+                        <Button text="✓" 
+                                tap="{{ $parent.onApproveRequest }}"
+                                class="btn-success"
+                                col="1" />
+                        <Button text="✕"
+                                tap="{{ $parent.onDenyRequest }}"
+                                class="btn-danger ml-2"
+                                col="2" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+
+        <!-- Current Participants -->
+        <TabViewItem title="Participants">
+            <ListView items="{{ participants }}" class="list-group">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto" class="list-group-item p-2">
+                        <StackLayout col="0">
+                            <Label text="{{ displayName }}" class="font-bold" />
+                            <GridLayout columns="auto, auto" class="text-sm">
+                                <Label text="{{ 'Bids: ' + totalBids }}" class="text-gray-600" />
+                                <Label text="{{ 'Total: $' + totalSpent }}" 
+                                       class="text-gray-600 ml-2" col="1" />
+                            </GridLayout>
+                        </StackLayout>
+                        <Button text="Remove"
+                                tap="{{ $parent.onRemoveParticipant }}"
+                                class="btn-outline"
+                                isEnabled="{{ totalBids === 0 }}"
+                                col="1" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+
+        <!-- Director Controls -->
+        <TabViewItem title="Directors">
+            <StackLayout class="p-4">
+                <Label text="Tournament Director" class="font-bold mb-2" />
+                <Label text="{{ directorName }}" class="mb-4" />
+
+                <Label text="Co-Directors" class="font-bold mb-2" />
+                <ListView items="{{ coDirectors }}" height="200" class="mb-4">
+                    <ListView.itemTemplate>
+                        <GridLayout columns="*, auto" class="p-2">
+                            <Label text="{{ displayName }}" col="0" />
+                            <Button text="Remove"
+                                    tap="{{ $parent.onRemoveCoDirector }}"
+                                    class="btn-outline"
+                                    col="1" />
+                        </GridLayout>
+                    </ListView.itemTemplate>
+                </ListView>
+
+                <Button text="Add Co-Director"
+                        tap="{{ onAddCoDirector }}"
+                        class="btn-primary" />
+            </StackLayout>
+        </TabViewItem>
+    </TabView>
+</Page>

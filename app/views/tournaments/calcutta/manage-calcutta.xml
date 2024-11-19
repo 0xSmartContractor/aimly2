@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Calcutta Auction">
+        <ActionItem text="Settings" tap="{{ showSettings }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <GridLayout rows="auto, *">
+        <!-- Status and Stats -->
+        <GridLayout row="0" columns="*, auto" class="p-4 bg-gray-100">
+            <StackLayout col="0">
+                <Label text="{{ 'Status: ' + calcutta.status }}" class="font-bold" />
+                <Label text="{{ 'Total Pot: $' + calcutta.totalPot }}" class="text-green-600" />
+            </StackLayout>
+            <Button text="{{ actionButtonText }}" 
+                    tap="{{ onActionButtonTap }}"
+                    class="btn-primary"
+                    col="1" />
+        </GridLayout>
+
+        <!-- Main Content -->
+        <TabView row="1" selectedIndex="{{ selectedTabIndex }}">
+            <!-- Blind Bidding -->
+            <TabViewItem title="Blind Bids">
+                <GridLayout rows="*, auto">
+                    <ListView items="{{ blindBids }}" class="list-group">
+                        <ListView.itemTemplate>
+                            <GridLayout columns="*, auto" class="list-group-item p-2">
+                                <Label text="{{ playerName }}" col="0" />
+                                <Label text="{{ '$' + amount }}" col="1" class="font-bold" />
+                            </GridLayout>
+                        </ListView.itemTemplate>
+                    </ListView>
+                    
+                    <Button text="Submit Blind Bid" 
+                            tap="{{ onSubmitBlindBid }}"
+                            class="btn-primary m-2"
+                            row="1"
+                            isEnabled="{{ canSubmitBlindBid }}" />
+                </GridLayout>
+            </TabViewItem>
+
+            <!-- Live Auction -->
+            <TabViewItem title="Live Auction">
+                <GridLayout rows="auto, *, auto">
+                    <!-- Current Player -->
+                    <StackLayout row="0" class="p-4 bg-gray-100">
+                        <Label text="{{ currentPlayer.name }}" class="text-xl font-bold" />
+                        <Label text="{{ 'Current Bid: $' + currentBid }}" class="text-lg" />
+                        <Label text="{{ 'High Bidder: ' + highBidder }}" />
+                    </StackLayout>
+
+                    <!-- Auction History -->
+                    <ListView items="{{ auctionResults }}" row="1">
+                        <ListView.itemTemplate>
+                            <GridLayout columns="*, auto" class="p-2 border-b">
+                                <StackLayout col="0">
+                                    <Label text="{{ playerName }}" class="font-bold" />
+                                    <Label text="{{ bidderName }}" class="text-sm text-gray-600" />
+                                </StackLayout>
+                                <Label text="{{ '$' + amount }}" col="1" class="font-bold" />
+                            </GridLayout>
+                        </ListView.itemTemplate>
+                    </ListView>
+
+                    <!-- Bidding Controls -->
+                    <GridLayout row="2" columns="auto, *, auto" class="p-2">
+                        <Button text="-" 
+                                tap="{{ decrementBid }}"
+                                class="btn-outline"
+                                col="0" />
+                        <TextField text="{{ bidAmount }}"
+                                  keyboardType="number"
+                                  class="text-center"
+                                  col="1" />
+                        <Button text="+"
+                                tap="{{ incrementBid }}"
+                                class="btn-outline"
+                                col="2" />
+                    </GridLayout>
+                    
+                    <Button text="Place Bid"
+                            tap="{{ onPlaceBid }}"
+                            class="btn-primary m-2"
+                            row="3" />
+                </GridLayout>
+            </TabViewItem>
+
+            <!-- Results -->
+            <TabViewItem title="Results">
+                <ScrollView>
+                    <StackLayout class="p-4">
+                        <!-- Pot and Payouts -->
+                        <Label text="Calcutta Pool" class="text-xl font-bold mb-2" />
+                        <GridLayout columns="auto, *" rows="auto, auto, auto" class="mb-4">
+                            <Label text="Total Pot:" row="0" col="0" />
+                            <Label text="{{ '$' + calcutta.totalPot }}" 
+                                   class="text-right font-bold"
+                                   row="0" col="1" />
+                            
+                            <Label text="1st Place:" row="1" col="0" />
+                            <Label text="{{ '$' + firstPlacePayout }}"
+                                   class="text-right text-green-600"
+                                   row="1" col="1" />
+                            
+                            <Label text="2nd Place:" row="2" col="0" />
+                            <Label text="{{ '$' + secondPlacePayout }}"
+                                   class="text-right text-green-600"
+                                   row="2" col="1" />
+                        </GridLayout>
+
+                        <!-- Player Ownership -->
+                        <Label text="Player Ownership" class="text-xl font-bold mb-2" />
+                        <ListView items="{{ playerOwnerships }}" height="200" class="mb-4">
+                            <ListView.itemTemplate>
+                                <GridLayout columns="*, auto" class="p-2 border-b">
+                                    <StackLayout col="0">
+                                        <Label text="{{ playerName }}" class="font-bold" />
+                                        <Label text="{{ ownerName }}" class="text-sm text-gray-600" />
+                                    </StackLayout>
+                                    <Label text="{{ '$' + amount }}" col="1" class="font-bold" />
+                                </GridLayout>
+                            </ListView.itemTemplate>
+                        </ListView>
+
+                        <!-- Stats -->
+                        <Label text="Auction Stats" class="text-xl font-bold mb-2" />
+                        <GridLayout columns="auto, *" rows="auto, auto, auto" class="mb-4">
+                            <Label text="Average Bid:" row="0" col="0" />
+                            <Label text="{{ '$' + stats.averageBid }}" 
+                                   class="text-right"
+                                   row="0" col="1" />
+                            
+                            <Label text="Highest Bid:" row="1" col="0" />
+                            <Label text="{{ '$' + stats.highestBid }}"
+                                   class="text-right"
+                                   row="1" col="1" />
+                            
+                            <Label text="Total Players:" row="2" col="0" />
+                            <Label text="{{ stats.playerCount }}"
+                                   class="text-right"
+                                   row="2" col="1" />
+                        </GridLayout>
+                    </StackLayout>
+                </ScrollView>
+            </TabViewItem>
+        </TabView>
+    </GridLayout>
+</Page></content></file>
+
+<boltAction type="file" filePath="app/views/tournaments/calcutta/manage-calcutta.js">import { Observable } from '@nativescript/core';
+import { CalcuttaService } from '../../../services/calcutta-service';
+
+export function createViewModel(calcuttaId) {
+    const viewModel = new Observable();
+    const calcuttaService = new CalcuttaService();
+
+    // Initialize properties
+    viewModel.calcutta = null;
+    viewModel.selectedTabIndex = 0;
+    viewModel.currentBid = 0;
+    viewModel.bidAmount = 0;
+    viewModel.currentPlayer = null;
+    viewModel.highBidder = '';
+    viewModel.stats = null;
+
+    // Load calcutta data
+    function loadCalcutta() {
+        const calcutta = calcuttaService.getCalcutta(calcuttaId);
+        viewModel.set('calcutta', calcutta);
+        
+        // Update action button text based on status
+        const actionText = {
+            'pending': 'Start Blind Bidding',
+            'blind-bidding': 'Start Live Auction',
+            'live-auction': 'Complete Auction',
+            'completed': 'View Results'
+        };
+        viewModel.set('actionButtonText', actionText[calcutta.status]);
+
+        // Load stats if completed
+        if (calcutta.status === 'completed') {
+            const stats = calcuttaService.getCalcuttaStats(calcuttaId);
+            viewModel.set('stats', stats);
+            viewModel.set('firstPlacePayout', stats.payouts.first);
+            viewModel.set('secondPlacePayout', stats.payouts.second);
+        }
+    }
+
+    // Action button handler
+    viewModel.onActionButtonTap = () => {
+        switch (viewModel.calcutta.status) {
+            case 'pending':
+                calcuttaService.startBlindBidding(calcuttaId);
+                break;
+            case 'blind-bidding':
+                calcuttaService.startLiveAuction(calcuttaId);
+                break;
+            case 'live-auction':
+                calcuttaService.completeCalcutta(calcuttaId);
+                break;
+        }
+        loadCalcutta();
+    };
+
+    // Blind bidding
+    viewModel.onSubmitBlindBid = () => {
+        const dialog = require('@nativescript/core').prompt;
+        dialog({
+            title: 'Submit Blind Bid',
+            message: 'Enter bid amount:',
+            inputType: dialog.inputType.decimal,
+            defaultText: viewModel.calcutta.settings.minBid.toString(),
+            okButtonText: 'Submit',
+            cancelButtonText: 'Cancel'
+        }).then(data => {
+            if (data.result) {
+                const amount = parseFloat(data.text);
+                if (amount >= viewModel.calcutta.settings.minBid) {
+                    calcuttaService.submitBlindBid(calcuttaId, {
+                        amount,
+                        playerId: viewModel.currentPlayer.id,
+                        playerName: viewModel.currentPlayer.name,
+                        bidderId: user.id,
+                        bidderName: user.displayName
+                    });
+                    loadCalcutta();
+                }
+            }
+        });
+    };
+
+    // Live auction
+    viewModel.incrementBid = () => {
+        const increment = viewModel.calcutta.settings.bidIncrement;
+        viewModel.set('bidAmount', viewModel.bidAmount + increment);
+    };
+
+    viewModel.decrementBid = () => {
+        const increment = viewModel.calcutta.settings.bidIncrement;
+        const newAmount = Math.max(
+            viewModel.currentBid + increment,
+            viewModel.bidAmount - increment
+        );
+        viewModel.set('bidAmount', newAmount);
+    };
+
+    viewModel.onPlaceBid = () => {
+        if (viewModel.bidAmount <= viewModel.currentBid) return;
+
+        calcuttaService.recordAuctionResult(calcuttaId, {
+            playerId: viewModel.currentPlayer.id,
+            playerName: viewModel.currentPlayer.name,
+            bidderId: user.id,
+            bidderName: user.displayName,
+            amount: viewModel.bidAmount
+        });
+
+        viewModel.set('currentBid', viewModel.bidAmount);
+        viewModel.set('highBidder', user.displayName);
+        loadCalcutta();
+    };
+
+    // Settings
+    viewModel.showSettings = () => {
+        const frame = require('@nativescript/core').Frame;
+        frame.topmost().navigate({
+            moduleName: 'views/tournaments/calcutta/calcutta-settings',
+            context: {
+                calcuttaId,
+                settings: viewModel.calcutta.settings,
+                onSave: (newSettings) => {
+                    calcuttaService.updateSettings(calcuttaId, newSettings);
+                    loadCalcutta();
+                }
+            }
+        });
+    };
+
+    // Load initial data
+    loadCalcutta();
+
+    return viewModel;
+}
+
+export function onNavigatingTo(args) {
+    const page = args.object;
+    const calcuttaId = page.navigationContext.calcuttaId;
+    page.bindingContext = createViewModel(calcuttaId);
+}

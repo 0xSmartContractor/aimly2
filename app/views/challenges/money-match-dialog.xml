@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Money Match">
+        <ActionItem text="Confirm" tap="{{ onConfirmTap }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <StackLayout class="p-4">
+        <!-- Main Stake -->
+        <Label text="Main Stake" class="text-lg font-bold mb-2" />
+        <GridLayout rows="auto" columns="*, auto" class="mb-4">
+            <TextField hint="Enter amount" 
+                      text="{{ mainStake }}"
+                      keyboardType="number"
+                      col="0" />
+            <Label text="USD" class="ml-2" col="1" />
+        </GridLayout>
+
+        <!-- Side Bets -->
+        <Label text="Side Bets" class="text-lg font-bold mb-2" />
+        <ListView items="{{ sideBets }}" height="150" class="mb-4">
+            <ListView.itemTemplate>
+                <GridLayout columns="*, auto" class="p-2 border-b">
+                    <Label text="{{ description }}" col="0" />
+                    <Label text="{{ '$' + amount }}" col="1" class="font-bold" />
+                </GridLayout>
+            </ListView.itemTemplate>
+        </ListView>
+
+        <!-- Add Side Bet -->
+        <GridLayout rows="auto, auto" columns="*, auto" class="mb-4">
+            <TextField hint="Description" 
+                      text="{{ newBetDescription }}"
+                      row="0" colSpan="2" />
+            <TextField hint="Amount" 
+                      text="{{ newBetAmount }}"
+                      keyboardType="number"
+                      row="1" col="0" />
+            <Button text="Add" 
+                    tap="{{ onAddSideBet }}"
+                    class="btn-primary"
+                    row="1" col="1" />
+        </GridLayout>
+
+        <!-- Total -->
+        <GridLayout rows="auto" columns="auto, *" class="bg-gray-100 p-4 rounded">
+            <Label text="Total Stake:" class="font-bold" col="0" />
+            <Label text="{{ '$' + totalStake }}" class="text-right font-bold" col="1" />
+        </GridLayout>
+
+        <!-- Warning -->
+        <Label text="Note: All money is handled locally between players. Aimly is not responsible for any monetary transactions."
+               class="text-sm text-gray-600 mt-4"
+               textWrap="true" />
+    </StackLayout>
+</Page>

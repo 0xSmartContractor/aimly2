@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Edit Profile">
+        <ActionItem text="Save" tap="{{ onSaveTap }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+    
+    <ScrollView>
+        <StackLayout class="p-4">
+            <Image src="{{ photoUrl }}" width="100" height="100" class="rounded-full mb-4" />
+            <Button text="Change Photo" tap="{{ onChangePhotoTap }}" class="btn mb-4" />
+            
+            <Label text="Display Name" class="font-bold" />
+            <TextField text="{{ displayName }}" class="input mb-4" />
+            
+            <Label text="Bio" class="font-bold" />
+            <TextView text="{{ bio }}" class="input h-32 mb-4" />
+            
+            <Label text="Skill Levels" class="font-bold" />
+            <GridLayout rows="auto, auto, auto" columns="*, *" class="mb-4">
+                <Label text="APA" row="0" col="0" />
+                <TextField text="{{ skillLevels.apa }}" keyboardType="number" row="0" col="1" />
+                
+                <Label text="BCA" row="1" col="0" />
+                <TextField text="{{ skillLevels.bca }}" keyboardType="number" row="1" col="1" />
+                
+                <Label text="TAP" row="2" col="0" />
+                <TextField text="{{ skillLevels.tap }}" keyboardType="number" row="2" col="1" />
+            </GridLayout>
+        </StackLayout>
+    </ScrollView>
+</Page>

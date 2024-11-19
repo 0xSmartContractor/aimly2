@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="New Challenge">
+        <ActionItem text="Send" tap="{{ onSendChallenge }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+    
+    <ScrollView>
+        <StackLayout class="p-4">
+            <!-- Opponent Selection -->
+            <Label text="Select Opponent" class="text-lg font-bold mb-2" />
+            <SearchBar hint="Search players..." 
+                      text="{{ searchQuery }}" 
+                      submit="{{ onSearch }}"
+                      clear="{{ onClearSearch }}"
+                      textChange="{{ onSearchTextChanged }}"
+                      class="mb-4" />
+            
+            <ListView items="{{ filteredPlayers }}" 
+                      itemTap="{{ onPlayerSelect }}"
+                      height="200"
+                      class="mb-4">
+                <ListView.itemTemplate>
+                    <GridLayout columns="auto, *, auto" class="p-2">
+                        <Image src="{{ photoUrl }}" width="40" height="40" class="rounded-full" />
+                        <StackLayout col="1" class="ml-2">
+                            <Label text="{{ displayName }}" class="font-bold" />
+                            <Label text="{{ 'APA: ' + skillLevels.apa + ' | BCA: ' + skillLevels.bca }}" class="text-sm" />
+                        </StackLayout>
+                        <Label text="{{ selected ? '✓' : '' }}" col="2" class="text-green-500 font-bold" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+            
+            <!-- Game Settings -->
+            <Label text="Game Type" class="text-lg font-bold mb-2" />
+            <ListPicker items="{{ gameTypes }}" 
+                       selectedIndex="{{ selectedGameTypeIndex }}"
+                       class="mb-4" />
+            
+            <Label text="Match Type" class="text-lg font-bold mb-2" />
+            <ListPicker items="{{ matchTypes }}"
+                       selectedIndex="{{ selectedMatchTypeIndex }}"
+                       class="mb-4" />
+            
+            <!-- Race Settings -->
+            <Label text="Race Type" class="text-lg font-bold mb-2" />
+            <SegmentedBar items="{{ raceTypes }}" 
+                         selectedIndex="{{ selectedRaceTypeIndex }}"
+                         class="mb-4" />
+            
+            <GridLayout rows="auto, auto" columns="*, *" class="mb-4" visibility="{{ isHandicapVisible ? 'visible' : 'collapse' }}">
+                <Label text="Your Race To" row="0" col="0" class="text-center" />
+                <Label text="Opponent Race To" row="0" col="1" class="text-center" />
+                
+                <TextField text="{{ race.challenger }}" 
+                          keyboardType="number" 
+                          class="input text-center" 
+                          row="1" col="0" />
+                <TextField text="{{ race.challengee }}" 
+                          keyboardType="number" 
+                          class="input text-center" 
+                          row="1" col="1" />
+            </GridLayout>
+            
+            <GridLayout rows="auto" columns="auto, *" class="mb-4" visibility="{{ !isHandicapVisible ? 'visible' : 'collapse' }}">
+                <Label text="Race to" class="mr-2" />
+                <TextField text="{{ race.standard }}" 
+                          keyboardType="number" 
+                          class="input" />
+            </GridLayout>
+            
+            <!-- Schedule -->
+            <Label text="Schedule" class="text-lg font-bold mb-2" />
+            <DatePicker date="{{ scheduledDate }}" class="mb-2" />
+            <TimePicker time="{{ scheduledTime }}" class="mb-4" />
+            
+            <!-- Notes -->
+            <Label text="Notes" class="text-lg font-bold mb-2" />
+            <TextView hint="Add any additional notes..." 
+                      text="{{ notes }}"
+                      height="100"
+                      class="input mb-4" />
+        </StackLayout>
+    </ScrollView>
+</Page>

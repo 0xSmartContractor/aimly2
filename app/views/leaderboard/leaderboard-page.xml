@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Leaderboard">
+        <ActionItem text="Filter" tap="{{ showFilters }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+    
+    <GridLayout rows="auto, *">
+        <!-- Search Bar -->
+        <SearchBar
+            row="0"
+            hint="Search players..."
+            text="{{ searchQuery }}"
+            submit="{{ onSearch }}"
+            clear="{{ onClearSearch }}"
+            textChange="{{ onSearchTextChanged }}"
+            class="m-2"
+        />
+        
+        <!-- Leaderboard List -->
+        <ListView row="1" items="{{ players }}" itemTap="{{ onPlayerTap }}" class="list-group">
+            <ListView.itemTemplate>
+                <GridLayout columns="auto, *, auto" rows="auto, auto" class="list-group-item p-2">
+                    <!-- Player Image and Rank -->
+                    <StackLayout col="0" rowSpan="2" class="m-2">
+                        <Image src="{{ photoUrl }}" width="50" height="50" class="rounded-full" />
+                        <Label text="{{ rank }}" class="text-center font-bold" />
+                    </StackLayout>
+                    
+                    <!-- Player Info -->
+                    <StackLayout col="1">
+                        <Label text="{{ displayName }}" class="font-bold" />
+                        <Label>
+                            <FormattedString>
+                                <Span text="APA: " />
+                                <Span text="{{ skillLevels.apa }}" class="font-bold" />
+                                <Span text=" | BCA: " />
+                                <Span text="{{ skillLevels.bca }}" class="font-bold" />
+                                <Span text=" | TAP: " />
+                                <Span text="{{ skillLevels.tap }}" class="font-bold" />
+                            </FormattedString>
+                        </Label>
+                    </StackLayout>
+                    
+                    <!-- Stats -->
+                    <StackLayout col="2" rowSpan="2" class="text-right">
+                        <Label text="{{ stats.winRate }}%" class="font-bold" />
+                        <Label text="{{ stats.wins }}-{{ stats.losses }}" class="text-sm" />
+                    </StackLayout>
+                </GridLayout>
+            </ListView.itemTemplate>
+        </ListView>
+    </GridLayout>
+</Page>

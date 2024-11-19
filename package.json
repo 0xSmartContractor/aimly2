@@ -1,0 +1,43 @@
+{
+    "name": "aimly",
+    "main": "app/app.js",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "@clerk/clerk-expo": "^0.20.1",
+        "@mediapipe/pose": "^0.5.1675469404",
+        "@nativescript/camera": "^5.0.12",
+        "@nativescript/core": "~8.8.0",
+        "@nativescript/geolocation": "^8.3.1",
+        "@nativescript/imagepicker": "^1.0.8",
+        "@tensorflow-models/pose-detection": "^2.1.3",
+        "@tensorflow/tfjs": "^4.15.0",
+        "@tensorflow/tfjs-backend-webgl": "^4.15.0",
+        "@tensorflow/tfjs-converter": "^4.15.0",
+        "@tensorflow/tfjs-core": "^4.15.0",
+        "date-fns": "^2.30.0",
+        "expo-secure-store": "^12.8.1",
+        "expo-web-browser": "^12.8.2",
+        "openai": "^4.24.1",
+        "react": "^18.2.0",
+        "react-nativescript": "^5.0.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.23.6",
+        "@babel/plugin-transform-runtime": "^7.23.6",
+        "@babel/preset-react": "^7.23.3",
+        "@nativescript/preview-cli": "^1.0.13",
+        "@nativescript/stackblitz": "^0.0.8",
+        "@nativescript/tailwind": "^2.1.0",
+        "@nativescript/webpack": "~5.0.0",
+        "@types/react": "^18.2.0",
+        "babel-loader": "^9.1.3",
+        "tailwindcss": "~3.4.0"
+    },
+    "scripts": {
+        "start": "ns run",
+        "ios": "ns run ios",
+        "android": "ns run android",
+        "preview": "setup-nativescript-stackblitz && ns preview"
+    }
+}

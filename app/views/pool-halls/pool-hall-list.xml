@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Pool Halls">
+        <ActionItem text="Filter" tap="{{ showFilters }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <GridLayout rows="auto, *">
+        <!-- Search and Location -->
+        <GridLayout row="0" columns="*, auto" class="p-2">
+            <SearchBar hint="Search pool halls..." 
+                      text="{{ searchQuery }}"
+                      submit="{{ onSearch }}"
+                      clear="{{ onClearSearch }}"
+                      col="0" />
+            <Button text="📍" 
+                    tap="{{ onLocationTap }}"
+                    class="btn-primary"
+                    col="1" />
+        </GridLayout>
+
+        <!-- Pool Hall List -->
+        <ListView row="1" items="{{ poolHalls }}" itemTap="{{ onPoolHallTap }}">
+            <ListView.itemTemplate>
+                <GridLayout columns="*, auto" rows="auto, auto, auto" class="p-4 border-b">
+                    <!-- Pool Hall Info -->
+                    <Label text="{{ name }}" class="font-bold text-lg" row="0" col="0" />
+                    <Label text="{{ address }}" class="text-gray-600" row="1" col="0" />
+                    
+                    <!-- Status Info -->
+                    <GridLayout columns="auto, auto" row="2" col="0">
+                        <Label text="{{ tables.available + ' tables available' }}"
+                               class="text-green-600 mr-2"
+                               col="0" />
+                        <Label text="{{ currentPlayers + ' players here' }}"
+                               class="text-blue-600"
+                               col="1" />
+                    </GridLayout>
+                    
+                    <!-- Distance and Rating -->
+                    <StackLayout row="0" col="1" rowSpan="3" class="text-right">
+                        <Label text="{{ distance + ' mi' }}" class="text-gray-600" />
+                        <Label>
+                            <FormattedString>
+                                <Span text="{{ rating }}" class="font-bold" />
+                                <Span text=" ⭐" />
+                            </FormattedString>
+                        </Label>
+                        <Label text="Aimly Partner" 
+                               class="text-xs text-green-600"
+                               visibility="{{ isAimlyPartner ? 'visible' : 'collapsed' }}" />
+                    </StackLayout>
+                </GridLayout>
+            </ListView.itemTemplate>
+        </ListView>
+    </GridLayout>
+</Page>

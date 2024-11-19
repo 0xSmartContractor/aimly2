@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Record Match">
+        <ActionItem text="Finish" tap="{{ onFinishMatch }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+    
+    <GridLayout rows="auto, auto, *, auto" class="p-4">
+        <!-- Match Info -->
+        <StackLayout row="0" class="text-center p-4">
+            <Label>
+                <FormattedString>
+                    <Span text="{{ challenge.gameType }}" class="font-bold" />
+                    <Span text=" - Race to " />
+                    <Span text="{{ challenge.race.challenger }}" class="font-bold" />
+                    <Span text=" vs " />
+                    <Span text="{{ challenge.race.challengee }}" class="font-bold" />
+                </FormattedString>
+            </Label>
+        </StackLayout>
+        
+        <!-- Score Display -->
+        <GridLayout row="1" columns="*, auto, *" class="text-center p-4">
+            <!-- Challenger -->
+            <StackLayout col="0">
+                <Image src="{{ challenge.challengerPhoto }}" width="60" height="60" class="rounded-full" />
+                <Label text="{{ challenge.challengerName }}" class="font-bold" />
+                <Label text="{{ score.challenger }}" class="text-3xl font-bold" />
+                <Label text="{{ 'Needs ' + remainingGames.challenger }}" class="text-sm" />
+            </StackLayout>
+            
+            <!-- VS -->
+            <Label text="VS" col="1" class="text-xl font-bold" />
+            
+            <!-- Challengee -->
+            <StackLayout col="2">
+                <Image src="{{ challenge.challengeePhoto }}" width="60" height="60" class="rounded-full" />
+                <Label text="{{ challenge.challengeeName }}" class="font-bold" />
+                <Label text="{{ score.challengee }}" class="text-3xl font-bold" />
+                <Label text="{{ 'Needs ' + remainingGames.challengee }}" class="text-sm" />
+            </StackLayout>
+        </GridLayout>
+        
+        <!-- Winner Display -->
+        <StackLayout row="2" class="text-center" visibility="{{ isMatchComplete ? 'visible' : 'collapse' }}">
+            <Label text="Match Complete!" class="text-2xl font-bold text-green-600 m-4" />
+            <Label>
+                <FormattedString>
+                    <Span text="{{ winner.name }}" class="font-bold" />
+                    <Span text=" wins " />
+                    <Span text="{{ score.challenger }}" class="font-bold" />
+                    <Span text=" - " />
+                    <Span text="{{ score.challengee }}" class="font-bold" />
+                </FormattedString>
+            </Label>
+        </StackLayout>
+        
+        <!-- Game Controls -->
+        <GridLayout row="3" rows="auto, auto" columns="*, *" class="p-4">
+            <!-- Win Buttons -->
+            <Button text="{{ challenge.challengerName + ' Wins Game' }}"
+                    tap="{{ onChallengerWin }}"
+                    isEnabled="{{ !isMatchComplete }}"
+                    class="btn btn-primary m-2"
+                    row="0" col="0" />
+            
+            <Button text="{{ challenge.challengeeName + ' Wins Game' }}"
+                    tap="{{ onChallengeeWin }}"
+                    isEnabled="{{ !isMatchComplete }}"
+                    class="btn btn-primary m-2"
+                    row="0" col="1" />
+            
+            <!-- Undo Button -->
+            <Button text="Undo Last Game"
+                    tap="{{ onUndoLastGame }}"
+                    isEnabled="{{ score.challenger > 0 || score.challengee > 0 }}"
+                    class="btn btn-secondary m-2"
+                    row="1" colSpan="2" />
+        </GridLayout>
+    </GridLayout>
+</Page>

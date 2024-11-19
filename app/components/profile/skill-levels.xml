@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout class="p-4 bg-white mt-2">
+    <Label text="Skill Levels" class="text-lg font-bold mb-2" />
+    <GridLayout rows="auto, auto, auto" columns="*, *" class="text-center">
+        <Label text="APA" class="font-semibold" row="0" col="0" />
+        <Label text="{{ skillLevels.apa }}" row="0" col="1" />
+        
+        <Label text="BCA" class="font-semibold" row="1" col="0" />
+        <Label text="{{ skillLevels.bca }}" row="1" col="1" />
+        
+        <Label text="TAP" class="font-semibold" row="2" col="0" />
+        <Label text="{{ skillLevels.tap }}" row="2" col="1" />
+    </GridLayout>
+</StackLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Challenges">
+        <ActionItem text="New" tap="{{ onNewChallenge }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+    
+    <TabView selectedIndex="{{ selectedTabIndex }}">
+        <!-- Pending Challenges -->
+        <TabViewItem title="Pending">
+            <ListView items="{{ pendingChallenges }}" itemTap="{{ onChallengeTap }}">
+                <ListView.itemTemplate>
+                    <GridLayout columns="auto, *, auto" rows="auto, auto, auto" class="p-4 border-b">
+                        <Image src="{{ challengerPhoto }}" width="40" height="40" 
+                               class="rounded-full" rowSpan="2" />
+                        
+                        <StackLayout col="1" class="ml-2">
+                            <Label>
+                                <FormattedString>
+                                    <Span text="{{ challengerName }}" class="font-bold" />
+                                    <Span text=" challenged you to " />
+                                    <Span text="{{ gameType }}" class="font-bold" />
+                                </FormattedString>
+                            </Label>
+                            <Label>
+                                <FormattedString>
+                                    <Span text="Race to: " />
+                                    <Span text="{{ race.challenger }}" class="font-bold" />
+                                    <Span text=" vs " />
+                                    <Span text="{{ race.challengee }}" class="font-bold" />
+                                </FormattedString>
+                            </Label>
+                            <Label text="{{ formattedDate }}" class="text-sm text-gray-500" />
+                        </StackLayout>
+                        
+                        <StackLayout col="2" rowSpan="3" class="ml-2">
+                            <Button text="Accept" tap="{{ onAccept }}" class="btn-primary mb-1" />
+                            <Button text="Decline" tap="{{ onDecline }}" class="btn-secondary" />
+                        </StackLayout>
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+        
+        <!-- Active Challenges -->
+        <TabViewItem title="Active">
+            <ListView items="{{ activeChallenges }}" itemTap="{{ onChallengeTap }}">
+                <ListView.itemTemplate>
+                    <GridLayout columns="auto, *, auto" rows="auto, auto, auto" class="p-4 border-b">
+                        <Image src="{{ challengerPhoto }}" width="40" height="40" 
+                               class="rounded-full" />
+                        
+                        <StackLayout col="1" class="ml-2">
+                            <Label>
+                                <FormattedString>
+                                    <Span text="{{ challengerName }}" class="font-bold" />
+                                    <Span text=" vs " />
+                                    <Span text="{{ challengeeName }}" class="font-bold" />
+                                </FormattedString>
+                            </Label>
+                            <Label text="{{ gameType }}" class="text-sm" />
+                            <Label>
+                                <FormattedString>
+                                    <Span text="Race to: " />
+                                    <Span text="{{ race.challenger }}" class="font-bold" />
+                                    <Span text=" vs " />
+                                    <Span text="{{ race.challengee }}" class="font-bold" />
+                                </FormattedString>
+                            </Label>
+                            <Label text="{{ formattedDate }}" class="text-sm text-gray-500" />
+                        </StackLayout>
+                        
+                        <Button text="Record" tap="{{ onRecord }}" 
+                                col="2" rowSpan="3" class="btn-primary" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+        
+        <!-- History -->
+        <TabViewItem title="History">
+            <ListView items="{{ completedChallenges }}" itemTap="{{ onChallengeTap }}">
+                <ListView.itemTemplate>
+                    <GridLayout columns="auto, *" rows="auto, auto, auto" class="p-4 border-b">
+                        <Image src="{{ challengerPhoto }}" width="40" height="40" 
+                               class="rounded-full" />
+                        
+                        <StackLayout col="1" class="ml-2">
+                            <Label>
+                                <FormattedString>
+                                    <Span text="{{ challengerName }}" class="font-bold" />
+                                    <Span text=" vs " />
+                                    <Span text="{{ challengeeName }}" class="font-bold" />
+                                </FormattedString>
+                            </Label>
+                            <Label>
+                                <FormattedString>
+                                    <Span text="Final Score: " />
+                                    <Span text="{{ result.score.challenger }}" class="font-bold" />
+                                    <Span text=" - " />
+                                    <Span text="{{ result.score.challengee }}" class="font-bold" />
+                                </FormattedString>
+                            </Label>
+                            <Label text="{{ formattedDate }}" class="text-sm text-gray-500" />
+                        </StackLayout>
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+    </TabView>
+</Page>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Money Management">
+        <ActionItem text="Save" tap="{{ onSaveTap }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <ScrollView>
+        <StackLayout class="p-4">
+            <!-- Entry & Fees -->
+            <Label text="Entry & Fees" class="text-lg font-bold mb-2" />
+            <GridLayout rows="auto, auto, auto" columns="*, auto" class="mb-4">
+                <Label text="Entry Fee" row="0" col="0" />
+                <TextField text="{{ moneyManagement.entryFee }}" 
+                          keyboardType="number"
+                          row="0" col="1" />
+                
+                <Label text="Added Money" row="1" col="0" />
+                <TextField text="{{ moneyManagement.addedMoney }}"
+                          keyboardType="number"
+                          row="1" col="1" />
+                
+                <Label text="Greens Fee" row="2" col="0" />
+                <TextField text="{{ moneyManagement.greensFees }}"
+                          keyboardType="number"
+                          row="2" col="1" />
+            </GridLayout>
+
+            <!-- House & Director -->
+            <Label text="House & Director" class="text-lg font-bold mb-2" />
+            <GridLayout rows="auto, auto" columns="*, auto" class="mb-4">
+                <Label text="House Percentage" row="0" col="0" />
+                <TextField text="{{ moneyManagement.housePercentage }}"
+                          keyboardType="number"
+                          row="0" col="1" />
+                
+                <Label text="Director Percentage" row="1" col="0" />
+                <TextField text="{{ moneyManagement.directorPercentage }}"
+                          keyboardType="number"
+                          row="1" col="1" />
+            </GridLayout>
+
+            <!-- Prize Structure -->
+            <Label text="Prize Structure" class="text-lg font-bold mb-2" />
+            <GridLayout rows="auto, auto, auto" columns="*, auto" class="mb-4">
+                <Label text="1st Place %" row="0" col="0" />
+                <TextField text="{{ moneyManagement.payoutStructure.first }}"
+                          keyboardType="number"
+                          row="0" col="1" />
+                
+                <Label text="2nd Place %" row="1" col="0" />
+                <TextField text="{{ moneyManagement.payoutStructure.second }}"
+                          keyboardType="number"
+                          row="1" col="1" />
+                
+                <Label text="3rd Place %" row="2" col="0" />
+                <TextField text="{{ moneyManagement.payoutStructure.third }}"
+                          keyboardType="number"
+                          row="2" col="1" />
+            </GridLayout>
+
+            <!-- Summary -->
+            <Label text="Prize Pool Summary" class="text-lg font-bold mb-2" />
+            <GridLayout rows="auto, auto, auto, auto" columns="auto, *" class="mb-4">
+                <Label text="Total Prize Pool:" row="0" col="0" class="font-bold" />
+                <Label text="{{ '$' + summary.total }}" row="0" col="1" class="text-right" />
+                
+                <Label text="House Cut:" row="1" col="0" />
+                <Label text="{{ '$' + summary.house.amount }}" row="1" col="1" class="text-right" />
+                
+                <Label text="Director Fee:" row="2" col="0" />
+                <Label text="{{ '$' + summary.director.amount }}" row="2" col="1" class="text-right" />
+                
+                <Label text="Player Pool:" row="3" col="0" class="font-bold" />
+                <Label text="{{ '$' + summary.players.total }}" row="3" col="1" class="text-right" />
+            </GridLayout>
+
+            <!-- Entry Tracking -->
+            <Label text="Entry Fee Tracking" class="text-lg font-bold mb-2" />
+            <ListView items="{{ entryTracking }}" height="200" class="mb-4">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto" class="p-2 border-b">
+                        <Label text="{{ playerName }}" col="0" />
+                        <Label text="{{ paid ? '✓ Paid' : 'Unpaid' }}"
+                               class="{{ paid ? 'text-green-600' : 'text-red-600' }}"
+                               col="1" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+
+            <!-- Prize Distribution -->
+            <Label text="Prize Distribution" class="text-lg font-bold mb-2" />
+            <ListView items="{{ prizeTracking }}" height="200">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto" class="p-2 border-b">
+                        <StackLayout col="0">
+                            <Label text="{{ playerName }}" class="font-bold" />
+                            <Label text="{{ position }}" class="text-sm text-gray-600" />
+                        </StackLayout>
+                        <Label text="{{ paid ? '✓ Paid' : '$' + amount }}"
+                               class="{{ paid ? 'text-green-600' : 'text-blue-600' }}"
+                               col="1" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
+</Page>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Filters">
+        <ActionItem text="Apply" tap="{{ onApplyTap }}" ios.position="right" android.position="actionBar" />
+        <ActionItem text="Reset" tap="{{ onResetTap }}" ios.position="left" android.position="actionBar" />
+    </ActionBar>
+    
+    <ScrollView>
+        <StackLayout class="p-4">
+            <!-- Sort Options -->
+            <Label text="Sort By" class="h3 mb-2" />
+            <ListPicker items="{{ sortOptions }}" selectedIndex="{{ selectedSortIndex }}" class="mb-4" />
+            
+            <!-- Skill Level Filters -->
+            <Label text="Skill Level Range" class="h3 mb-2" />
+            
+            <Label text="APA (0-9)" class="mb-1" />
+            <GridLayout columns="*, auto, *" class="mb-4">
+                <TextField text="{{ filters.skillLevel.apa.min }}" keyboardType="number" col="0" />
+                <Label text="-" col="1" class="text-center" />
+                <TextField text="{{ filters.skillLevel.apa.max }}" keyboardType="number" col="2" />
+            </GridLayout>
+            
+            <Label text="BCA (0-7)" class="mb-1" />
+            <GridLayout columns="*, auto, *" class="mb-4">
+                <TextField text="{{ filters.skillLevel.bca.min }}" keyboardType="number" col="0" />
+                <Label text="-" col="1" class="text-center" />
+                <TextField text="{{ filters.skillLevel.bca.max }}" keyboardType="number" col="2" />
+            </GridLayout>
+            
+            <Label text="TAP (0-6)" class="mb-1" />
+            <GridLayout columns="*, auto, *" class="mb-4">
+                <TextField text="{{ filters.skillLevel.tap.min }}" keyboardType="number" col="0" />
+                <Label text="-" col="1" class="text-center" />
+                <TextField text="{{ filters.skillLevel.tap.max }}" keyboardType="number" col="2" />
+            </GridLayout>
+            
+            <!-- Win Rate Filter -->
+            <Label text="Win Rate Range (%)" class="h3 mb-2" />
+            <GridLayout columns="*, auto, *" class="mb-4">
+                <TextField text="{{ filters.stats.minWinRate }}" keyboardType="number" col="0" />
+                <Label text="-" col="1" class="text-center" />
+                <TextField text="{{ filters.stats.maxWinRate }}" keyboardType="number" col="2" />
+            </GridLayout>
+        </StackLayout>
+    </ScrollView>
+</Page>

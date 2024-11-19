@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Player Buyback">
+        <ActionItem text="Confirm" tap="{{ onConfirmTap }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <StackLayout class="p-4">
+        <Label class="text-lg font-bold mb-2">
+            <FormattedString>
+                <Span text="Buyback for " />
+                <Span text="{{ playerName }}" class="text-primary" />
+            </FormattedString>
+        </Label>
+
+        <GridLayout rows="auto, auto" columns="*, auto" class="mb-4">
+            <Label text="Auction Amount:" row="0" col="0" />
+            <Label text="{{ '$' + auctionAmount }}" row="0" col="1" class="font-bold" />
+            
+            <Label text="Format:" row="1" col="0" />
+            <SegmentedBar items="{{ formatOptions }}" 
+                         selectedIndex="{{ selectedFormatIndex }}"
+                         row="1" col="1" />
+        </GridLayout>
+
+        <Label text="{{ 'Maximum Buyback: ' + maxBuybackPercentage + '%' }}" class="mb-2" />
+        
+        <Slider value="{{ buybackPercentage }}" 
+                minValue="0" 
+                maxValue="{{ maxBuybackPercentage }}"
+                class="mb-2" />
+                
+        <Label text="{{ buybackPercentage + '%' }}" class="text-center mb-4" />
+
+        <GridLayout rows="auto, auto" columns="auto, *" class="mb-4">
+            <Label text="Buyback Amount:" row="0" col="0" />
+            <Label text="{{ '$' + buybackAmount }}" row="0" col="1" class="text-right font-bold" />
+            
+            <Label text="Remaining Share:" row="1" col="0" />
+            <Label text="{{ '$' + remainingShare }}" row="1" col="1" class="text-right font-bold" />
+        </GridLayout>
+
+        <Button text="Confirm Buyback" 
+                tap="{{ onConfirmTap }}"
+                class="btn-primary" />
+    </StackLayout>
+</Page></content>

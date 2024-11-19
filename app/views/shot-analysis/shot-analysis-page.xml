@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Shot Analysis">
+        <ActionItem text="History" tap="{{ showHistory }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <GridLayout rows="*, auto, auto">
+        <!-- Camera Preview / Playback Area -->
+        <GridLayout row="0">
+            <ContentView id="cameraPreview" />
+            <ContentView id="wireframeOverlay" visibility="{{ showWireframe ? 'visible' : 'collapsed' }}" />
+            
+            <!-- Analysis Overlay -->
+            <StackLayout visibility="{{ analysis ? 'visible' : 'collapsed' }}"
+                        class="bg-black bg-opacity-50 p-4">
+                <Label text="{{ analysis.tempo.feedback }}" 
+                       class="text-white" textWrap="true" />
+                
+                <!-- Tempo Visualization -->
+                <GridLayout columns="{{ analysis.tempo.phases | phaseColumns }}" 
+                           class="h-8 mt-2">
+                    <Repeater items="{{ analysis.tempo.phases }}">
+                        <Repeater.itemTemplate>
+                            <StackLayout col="{{ index }}" 
+                                       backgroundColor="{{ color }}" 
+                                       width="{{ percentage }}%">
+                                <Label text="{{ name }}" class="text-xs text-center text-white" />
+                            </StackLayout>
+                        </Repeater.itemTemplate>
+                    </GridLayout>
+                </StackLayout>
+            </StackLayout>
+        </GridLayout>
+
+        <!-- Playback Controls -->
+        <GridLayout row="1" columns="auto, *, auto, auto" class="p-4"
+                    visibility="{{ analysis ? 'visible' : 'collapsed' }}">
+            <Button text="{{ isPlaying ? '⏸️' : '▶️' }}" 
+                    tap="{{ onPlayPause }}" 
+                    class="btn-primary" 
+                    col="0" />
+            
+            <Slider value="{{ currentFrame }}" 
+                    maxValue="{{ totalFrames }}" 
+                    minValue="0"
+                    col="1" 
+                    class="m-2" />
+            
+            <SegmentedBar items="{{ speedOptions }}" 
+                         selectedIndex="{{ selectedSpeedIndex }}"
+                         col="2"
+                         class="m-2" />
+            
+            <Button text="{{ showWireframe ? '👁️' : '👁️‍🗨️' }}"
+                    tap="{{ onToggleWireframe }}"
+                    class="btn-secondary"
+                    col="3" />
+        </GridLayout>
+
+        <!-- Record Button -->
+        <Button text="{{ isRecording ? 'Recording...' : 'Record Shot' }}"
+                tap="{{ onStartRecording }}"
+                isEnabled="{{ !isRecording && !isAnalyzing }}"
+                class="btn-primary p-4"
+                row="2" />
+    </GridLayout>
+</Page>

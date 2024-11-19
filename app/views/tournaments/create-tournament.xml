@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Create Tournament">
+        <ActionItem text="Create" tap="{{ onCreateTap }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <ScrollView>
+        <StackLayout class="p-4">
+            <!-- Basic Info -->
+            <Label text="Tournament Details" class="text-lg font-bold mb-2" />
+            <TextField hint="Tournament Name" text="{{ name }}" class="input mb-2" />
+            <TextView hint="Description" text="{{ description }}" class="input h-20 mb-2" />
+            
+            <!-- Format Selection -->
+            <Label text="Format" class="font-bold mb-2" />
+            <SegmentedBar items="{{ formatOptions }}" selectedIndex="{{ selectedFormatIndex }}" class="mb-4" />
+            
+            <!-- Dates -->
+            <GridLayout columns="*, *" rows="auto, auto" class="mb-4">
+                <Label text="Start Date" class="font-bold" row="0" col="0" />
+                <Label text="Registration Deadline" class="font-bold" row="0" col="1" />
+                <DatePicker date="{{ startDate }}" row="1" col="0" />
+                <DatePicker date="{{ registrationDeadline }}" row="1" col="1" />
+            </GridLayout>
+            
+            <!-- Player Limits -->
+            <GridLayout columns="*, *" rows="auto, auto" class="mb-4">
+                <Label text="Max Players" class="font-bold" row="0" col="0" />
+                <Label text="Entry Fee ($)" class="font-bold" row="0" col="1" />
+                <TextField text="{{ maxPlayers }}" keyboardType="number" row="1" col="0" />
+                <TextField text="{{ entryFee }}" keyboardType="number" row="1" col="1" />
+            </GridLayout>
+            
+            <!-- Race Details -->
+            <Label text="Race Details" class="font-bold mb-2" />
+            <GridLayout columns="*, *" rows="auto, auto" class="mb-4">
+                <SegmentedBar items="{{ raceTypeOptions }}" 
+                             selectedIndex="{{ selectedRaceTypeIndex }}"
+                             colSpan="2" row="0" />
+                             
+                <TextField text="{{ raceValue }}" 
+                          keyboardType="number"
+                          hint="Race to"
+                          visibility="{{ isFixedRace ? 'visible' : 'collapsed' }}"
+                          colSpan="2" row="1" />
+                          
+                <StackLayout row="1" colSpan="2" 
+                            visibility="{{ !isFixedRace ? 'visible' : 'collapsed' }}">
+                    <Label text="Handicap System" class="mb-1" />
+                    <SegmentedBar items="{{ handicapOptions }}" 
+                                 selectedIndex="{{ selectedHandicapIndex }}" />
+                </StackLayout>
+            </GridLayout>
+            
+            <!-- Theme Selection -->
+            <Label text="Tournament Theme" class="font-bold mb-2" />
+            <ListView items="{{ themes }}" height="120" class="mb-4">
+                <ListView.itemTemplate>
+                    <GridLayout columns="auto, *, auto" class="p-2">
+                        <ContentView width="24" height="24" 
+                                   backgroundColor="{{ primary }}"
+                                   class="rounded-full" />
+                        <Label text="{{ name }}" col="1" class="ml-2" />
+                        <Label text="{{ selected ? '✓' : '' }}" 
+                               col="2" 
+                               class="text-green-500" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+            
+            <!-- Advanced Options -->
+            <Label text="Advanced Options" class="font-bold mb-2" />
+            <GridLayout columns="*, auto" rows="auto, auto, auto" class="mb-4">
+                <Label text="Check-in Required" row="0" col="0" />
+                <Switch checked="{{ checkInRequired }}" row="0" col="1" />
+                
+                <Label text="Break Format" row="1" col="0" />
+                <SegmentedBar items="{{ breakOptions }}" 
+                             selectedIndex="{{ selectedBreakIndex }}"
+                             row="1" col="1" />
+                             
+                <Label text="Visibility" row="2" col="0" />
+                <SegmentedBar items="{{ visibilityOptions }}" 
+                             selectedIndex="{{ selectedVisibilityIndex }}"
+                             row="2" col="1" />
+            </GridLayout>
+            
+            <!-- Payout Structure -->
+            <Label text="Payout Structure (%)" class="font-bold mb-2" />
+            <GridLayout columns="auto, *" rows="auto, auto, auto" class="mb-4">
+                <Label text="1st Place" row="0" col="0" />
+                <Slider value="{{ payoutFirst }}" minValue="0" maxValue="100" row="0" col="1" />
+                
+                <Label text="2nd Place" row="1" col="0" />
+                <Slider value="{{ payoutSecond }}" minValue="0" maxValue="100" row="1" col="1" />
+                
+                <Label text="3rd Place" row="2" col="0" />
+                <Slider value="{{ payoutThird }}" minValue="0" maxValue="100" row="2" col="1" />
+            </GridLayout>
+            
+            <!-- Social Sharing -->
+            <Label text="Social Sharing" class="font-bold mb-2" />
+            <TextView hint="Add hashtags (comma separated)" 
+                      text="{{ hashtags }}" 
+                      class="input mb-2" />
+            <Button text="Add Tournament Image" 
+                    tap="{{ onAddImageTap }}" 
+                    class="btn btn-outline mb-4" />
+        </StackLayout>
+    </ScrollView>
+</Page>

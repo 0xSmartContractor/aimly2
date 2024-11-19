@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GridLayout rows="auto, auto" columns="auto, *" class="p-4 bg-white">
+    <Image src="{{ photoUrl }}" width="80" height="80" class="rounded-full" row="0" col="0" rowSpan="2" />
+    <Label text="{{ displayName }}" class="text-xl font-bold ml-4" row="0" col="1" />
+    <Label text="{{ bio }}" class="text-gray-600 ml-4" row="1" col="1" textWrap="true" />
+</GridLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Tournaments">
+        <ActionItem text="Create" tap="{{ onCreateTournament }}" ios.position="right" android.position="actionBar" />
+    </ActionBar>
+
+    <TabView selectedIndex="{{ selectedTabIndex }}">
+        <!-- Pending Tournaments -->
+        <TabViewItem title="Upcoming">
+            <ListView items="{{ pendingTournaments }}" itemTap="{{ onTournamentTap }}">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto" rows="auto, auto, auto" class="p-4 border-b">
+                        <Label text="{{ name }}" class="font-bold text-lg" row="0" col="0" />
+                        <Label text="{{ location }}" class="text-gray-600" row="1" col="0" />
+                        <GridLayout columns="auto, auto" row="2" col="0">
+                            <Label text="{{ format }}" class="text-blue-600 mr-2" col="0" />
+                            <Label text="{{ players.length + '/' + maxPlayers + ' players' }}"
+                                   class="text-green-600" col="1" />
+                        </GridLayout>
+                        <StackLayout row="0" col="1" rowSpan="3" class="text-right">
+                            <Label text="{{ '$' + entryFee }}" class="font-bold" />
+                            <Label text="{{ startDate | date }}" class="text-gray-600" />
+                        </StackLayout>
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+
+        <!-- Active Tournaments -->
+        <TabViewItem title="Active">
+            <ListView items="{{ activeTournaments }}" itemTap="{{ onTournamentTap }}">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto" rows="auto, auto" class="p-4 border-b">
+                        <Label text="{{ name }}" class="font-bold text-lg" row="0" col="0" />
+                        <Label text="{{ location }}" class="text-gray-600" row="1" col="0" />
+                        <Label text="{{ 'Round ' + currentRound }}" 
+                               class="text-blue-600 text-right"
+                               row="0" col="1" rowSpan="2" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+
+        <!-- Completed Tournaments -->
+        <TabViewItem title="History">
+            <ListView items="{{ completedTournaments }}" itemTap="{{ onTournamentTap }}">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto" rows="auto, auto" class="p-4 border-b">
+                        <Label text="{{ name }}" class="font-bold text-lg" row="0" col="0" />
+                        <StackLayout row="1" col="0">
+                            <Label text="{{ winner.name }}" class="text-green-600" />
+                            <Label text="{{ startDate | date }}" class="text-gray-600" />
+                        </StackLayout>
+                        <Label text="{{ '$' + prizePool }}"
+                               class="text-right font-bold"
+                               row="0" col="1" rowSpan="2" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </TabViewItem>
+    </TabView>
+</Page>

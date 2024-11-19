@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GridLayout rows="auto" columns="*, *, *" class="p-4 bg-white mt-2 text-center">
+    <StackLayout col="0">
+        <Label text="{{ stats.wins }}" class="text-xl font-bold" />
+        <Label text="Wins" class="text-gray-600" />
+    </StackLayout>
+    <StackLayout col="1">
+        <Label text="{{ stats.losses }}" class="text-xl font-bold" />
+        <Label text="Losses" class="text-gray-600" />
+    </StackLayout>
+    <StackLayout col="2">
+        <Label text="{{ stats.challengesCompleted }}" class="text-xl font-bold" />
+        <Label text="Challenges" class="text-gray-600" />
+    </StackLayout>
+</GridLayout>
